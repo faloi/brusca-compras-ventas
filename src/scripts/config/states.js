@@ -15,14 +15,21 @@ angular
         }
       }
     })
-    .state('classroom.home', {
+    .state('classroom.main', {
       url: '/',
       authenticated: false,
       views: {
         'content@classroom': {
-          templateUrl: 'views/home.html'
+          templateUrl: 'views/main.html',
+          controller: 'MainController'
         }
       }
+    })
+    .state('classroom.main.maestro', {
+      templateUrl: 'views/main-maestro.html'
+    })
+    .state('classroom.main.resultado', {
+      templateUrl: 'views/main-resultado.html'
     });
 
     $urlRouterProvider.otherwise('/')
