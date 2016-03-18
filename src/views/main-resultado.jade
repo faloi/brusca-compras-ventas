@@ -7,6 +7,9 @@ h4
   strong &nbsp;{{maestro.ventas.length}}&nbsp;
   span ventas.
 
+form.form-inline
+  .form-group
+    label.sr-only(for="contribuyente") Nombre del contribuyente
+    input.form-control(id="contribuyente", ng-model="contribuyente.nombre", placeholder="Nombre del contribuyente")
 
-textarea(cols=100) {{resultado.compras.comprobantes}}
-textarea(cols=100) {{resultado.compras.alicuotas}}
+  button.btn.btn-primary(type="submit", ng-click="descargarArchivos()") Descargar archivos

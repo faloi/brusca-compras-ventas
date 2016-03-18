@@ -28,6 +28,7 @@ angular
     };
 
     $state.go('.maestro');
+    $scope.contribuyente = {};
 
     $scope.parseMaestro = function(archivoXls) {
       const maestroXls = toWorkbook(archivoXls);
@@ -42,5 +43,13 @@ angular
       } catch(mensaje) {
         toastr.error(mensaje)
       }
+    };
+
+    $scope.descargarArchivos = () => {
+      const zip = new JSZip();
+      zip.file('compras-comprobantes.txt', $scope.resultado.compras.comprobantes);
+      zip.file('compras-alicuotas.txt', $scope.resultado.compras.alicuotas);
+
+      saveAs(zip.generate({type: 'blob'}), `${$scope.contribuyente.nombre} - ${moment().format('YYYY-MM-DD-HH-mm')}.zip`)
     };
   });
