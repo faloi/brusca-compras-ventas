@@ -1,17 +1,23 @@
 #!/usr/bin/env bash
 
-git fetch --all --prune &&
-git checkout master &&
-git rebase origin/master &&
-git checkout -B gh-pages &&
+if [ "$TRAVIS_BRANCH" = "master" ] && [ "$TRAVIS_PULL_REQUEST" = "false" ]; then
 
-node_modules/.bin/bower install &&
-node_modules/.bin/gulp prod:build &&
+  git fetch --all --prune &&
+  git checkout master &&
+  git rebase origin/master &&
+  git checkout -B gh-pages &&
 
-find -maxdepth 1 | grep -vE 'build|.git$' | grep './' | xargs rm -rf
-mv build/* .
-rm -rf build
+  node_modules/.bin/bower install &&
+  node_modules/.bin/gulp prod &&
 
-git add -fA &&
-git commit -m "Deploy: $(date)" &&
-git push --force --quiet "git@github.com:faloi/brusca-compras-ventas.git" gh-pages
+  find -maxdepth 1 | grep -vE 'build|.git$' | grep './' | xargs rm -rf
+  mv build/* .
+  rm -rf build
+
+  git add -fA &&
+  git config --global user.email "bot@faloi.com"
+  git config --global user.name "bot"
+  git commit -m "Deploy: $(date)" &&
+  git push --force --quiet "https://${GH_TOKEN}@github.com/faloi/brusca-compras-ventas.git" gh-pages
+
+fi
