@@ -1,7 +1,7 @@
 
 angular
   .module('classroom')
-  .controller('MainController', function ($scope, $state, toastr, ConversorCompra) {
+  .controller('MainController', function ($scope, $state, toastr, ConversorCompra, ConversorVenta) {
     const hojas = {
       compras: "Compras",
       ventas: "Ventas"
@@ -25,6 +25,7 @@ angular
 
     const generarArchivosDeTexto = () => {
       _.set($scope, 'resultado.compras', ConversorCompra.convertir($scope.maestro.compras));
+      _.set($scope, 'resultado.ventas', ConversorVenta.convertir($scope.maestro.ventas));
     };
 
     $state.go('.maestro');
@@ -49,6 +50,8 @@ angular
       const zip = new JSZip();
       zip.file('compras-comprobantes.txt', $scope.resultado.compras.comprobantes);
       zip.file('compras-alicuotas.txt', $scope.resultado.compras.alicuotas);
+      zip.file('ventas-comprobantes.txt', $scope.resultado.ventas.comprobantes);
+      zip.file('ventas-alicuotas.txt', $scope.resultado.ventas.alicuotas);
 
       saveAs(zip.generate({type: 'blob'}), `${$scope.contribuyente.nombre} - ${moment().format('YYYY-MM-DD-HH-mm')}.zip`)
     };
