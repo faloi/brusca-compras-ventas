@@ -8,13 +8,13 @@ angular
     };
 
     const toWorkbook = xlsBinary => XLSX.read(xlsBinary, {type: 'binary'});
-
     const getSheet = (nombreHoja, workbook) => workbook.Sheets[nombreHoja];
+
     const parsearExcel = (archivo, nombreHoja) => {
       const hoja = XLSX.utils.sheet_to_json(getSheet(nombreHoja, archivo));
       const convertirColumnasACamelCase = x => _.mapKeys(x, (valor, clave) => _.camelCase(clave));
 
-      return _.map(hoja, convertirColumnasACamelCase);
+      return _(hoja).map(convertirColumnasACamelCase).filter('fecha').value();
     };
 
     const validarFormatoCorrecto = workbook => {
