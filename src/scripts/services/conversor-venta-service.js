@@ -1,7 +1,7 @@
 
 angular
   .module('classroom')
-  .service('ConversorVenta', function(FixedLengthBuilder, TIPOS_DE_ALICUOTA, TIPOS_DE_COMPROBANTE) {
+  .service('ConversorVenta', function(FixedLengthBuilder, TIPOS_DE_ALICUOTA, TIPOS_DE_COMPROBANTE, TIPOS_DE_DOCUMENTO) {
     const formatos = {
       comprobantes: [
         { name: 'fecha', type: 'date', length: 8 },
@@ -9,7 +9,7 @@ angular
         { name: 'puntoVenta', type: 'integer', length: 5 },
         { name: 'numeroComprobante', type: 'integer', length: 20 },
         { name: 'numeroComprobanteHasta', type: 'integer', length: 20 },
-        { name: 'codigoDocumentoComprador', type: 'integer', length: 2, default: 80 },
+        { name: 'codigoDocumentoComprador', type: 'integer', length: 2 },
         { name: 'numeroIdentificacionComprador', type: 'integer', length: 20 },
         { name: 'apellidoNombreComprador', type: 'string', length: 30 },
         { name: 'importeTotalOperacion', type: 'decimal', decimals: 2, length: 15 },
@@ -41,8 +41,9 @@ angular
     return {
       convertir: ventas => {
         ventas.forEach(c => {
-          const alicuotas = _.pickBy(c, (value, key) => key.startsWith('iva'));
+          c.codigoDocumentoComprador = _.isNil(c.numeroIdentificacionComprador) ? TIPOS_DE_DOCUMENTO.CONSUMIDOR_FINAL : TIPOS_DE_DOCUMENTO.OTROS;
 
+          const alicuotas = _.pickBy(c, (value, key) => key.startsWith('iva'));
           c.alicuotas = _.map(alicuotas, (monto, tipo) => {
             return {
               alicuotaIva: TIPOS_DE_ALICUOTA[tipo],
