@@ -52,7 +52,7 @@ angular
             return {
               alicuotaIva: TIPOS_DE_ALICUOTA[tipo],
               impuestoLiquidado: monto,
-              importeNetoGravado: c[`base${tipo}`]
+              importeNetoGravado: c[_.camelCase(`base ${tipo}`)]
             }
           });
         });
