@@ -10,7 +10,12 @@ angular
     const toWorkbook = xlsBinary => XLSX.read(xlsBinary, {type: 'binary'});
 
     const getSheet = (nombreHoja, workbook) => workbook.Sheets[nombreHoja];
-    const parsearExcel = (archivo, nombreHoja) => XLSX.utils.sheet_to_json(getSheet(nombreHoja, archivo));
+    const parsearExcel = (archivo, nombreHoja) => {
+      const hoja = XLSX.utils.sheet_to_json(getSheet(nombreHoja, archivo));
+      const convertirColumnasACamelCase = x => _.mapKeys(x, (valor, clave) => _.camelCase(clave));
+
+      return _.map(hoja, convertirColumnasACamelCase);
+    };
 
     const validarFormatoCorrecto = workbook => {
       if (!_.every(hojas, nombre => _.isObject(workbook.Sheets[nombre]))) {
