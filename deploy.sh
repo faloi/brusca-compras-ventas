@@ -8,7 +8,7 @@ if [ "$TRAVIS_BRANCH" = "master" ] && [ "$TRAVIS_PULL_REQUEST" = "false" ]; then
   git checkout -B gh-pages &&
 
   node_modules/.bin/bower install &&
-  node_modules/.bin/gulp prod &&
+  node_modules/.bin/gulp prod:build &&
 
   find -maxdepth 1 | grep -vE 'build|.git$' | grep './' | xargs rm -rf
   mv build/* .
