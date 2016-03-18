@@ -1,20 +1,35 @@
 
 angular
   .module('classroom')
-  .controller('MainController', function ($scope, $state) {
-    const getSheet = (nombreHoja, workbook) => workbook.Sheets[nombreHoja];
+  .controller('MainController', function ($scope, $state, toastr) {
+    const hojas = {
+      compras: "Compras",
+      ventas: "Ventas"
+    };
+
     const toWorkbook = xlsBinary => XLSX.read(xlsBinary, {type: 'binary'});
 
-    const parsearExcel = (archivo, nombreHoja) => XLSX.utils.sheet_to_json(getSheet(nombreHoja, toWorkbook(archivo)));
+    const getSheet = (nombreHoja, workbook) => workbook.Sheets[nombreHoja];
+    const parsearExcel = (archivo, nombreHoja) => XLSX.utils.sheet_to_json(getSheet(nombreHoja, archivo));
+
+    const validarFormatoCorrecto = workbook => {
+      if (!_.every(hojas, nombre => _.isObject(workbook.Sheets[nombre]))) {
+        throw "La planilla no tiene el formato adecuado. Para que funcione correctamente, debe tener una hoja llamada Ventas y otra llamada Compras."
+      }
+    };
 
     $state.go('.maestro');
 
-    $scope.parseMaestro = function(maestroXls) {
-      $scope.maestro = {
-        compras: parsearExcel(maestroXls, "Compras"),
-        ventas: parsearExcel(maestroXls, "Ventas")
-      };
+    $scope.parseMaestro = function(archivoXls) {
+      const maestroXls = toWorkbook(archivoXls);
 
-      $state.go('^.resultado');
+      try {
+        validarFormatoCorrecto(maestroXls);
+        $scope.maestro = _.mapValues(hojas, x => parsearExcel(maestroXls, x));
+
+        $state.go('^.resultado');
+      } catch(mensaje) {
+        toastr.error(mensaje)
+      }
     };
   });

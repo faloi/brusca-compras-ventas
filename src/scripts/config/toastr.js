@@ -4,7 +4,7 @@ angular
   .config((toastrConfig) => {
 
     angular.extend(toastrConfig, {
-      positionClass: 'toast-bottom-left',
+      positionClass: 'toast-top-full-width',
       preventDuplicates: false,
       preventOpenDuplicates: false,
       target: 'body'
