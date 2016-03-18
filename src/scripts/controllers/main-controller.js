@@ -1,7 +1,7 @@
 
 angular
   .module('classroom')
-  .controller('MainController', function ($scope, $state, toastr) {
+  .controller('MainController', function ($scope, $state, toastr, ConversorCompra) {
     const hojas = {
       compras: "Compras",
       ventas: "Ventas"
@@ -23,18 +23,24 @@ angular
       }
     };
 
+    const generarArchivosDeTexto = () => {
+      _.set($scope, 'resultado.compras', ConversorCompra.convertir($scope.maestro.compras));
+    };
+
     $state.go('.maestro');
 
     $scope.parseMaestro = function(archivoXls) {
       const maestroXls = toWorkbook(archivoXls);
 
-      try {
+      //try {
         validarFormatoCorrecto(maestroXls);
         $scope.maestro = _.mapValues(hojas, x => parsearExcel(maestroXls, x));
 
+        generarArchivosDeTexto();
+
         $state.go('^.resultado');
-      } catch(mensaje) {
-        toastr.error(mensaje)
-      }
+      //} catch(mensaje) {
+      //  toastr.error(mensaje)
+      //}
     };
   });
