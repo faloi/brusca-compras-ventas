@@ -6,7 +6,7 @@ angular
     class FixedLengthBuilder {
       constructor(format, delimiter) {
         this.format = format;
-        this.delimiter = delimiter || "\n";
+        this.delimiter = delimiter || '\r\n';
         this.converters = {
           date: {
             parse: x => moment(x),
