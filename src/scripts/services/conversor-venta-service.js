@@ -41,7 +41,7 @@ angular
     return {
       convertir: ventas => {
         ventas.forEach(c => {
-          c.codigoDocumentoComprador = _.isNil(c.numeroIdentificacionComprador) ? TIPOS_DE_DOCUMENTO.CONSUMIDOR_FINAL : TIPOS_DE_DOCUMENTO.OTROS;
+          c.codigoDocumentoComprador = _.isNil(c.numeroIdentificacionComprador) ? TIPOS_DE_DOCUMENTO.CONSUMIDOR_FINAL : TIPOS_DE_DOCUMENTO.CUIT;
 
           const alicuotas = _.pickBy(c, (value, key) => key.startsWith('iva'));
           c.alicuotas = _.map(alicuotas, (monto, tipo) => {

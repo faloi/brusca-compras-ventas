@@ -1,7 +1,7 @@
 
 angular
   .module('classroom')
-  .service('ConversorCompra', function(FixedLengthBuilder, TIPOS_DE_ALICUOTA, TIPOS_DE_COMPROBANTE) {
+  .service('ConversorCompra', function(FixedLengthBuilder, TIPOS_DE_ALICUOTA, TIPOS_DE_COMPROBANTE, TIPOS_DE_DOCUMENTO) {
     const formatos = {
       comprobantes: [
         { name: 'fecha', type: 'date', length: 8 },
@@ -9,7 +9,7 @@ angular
         { name: 'puntoVenta', type: 'integer', length: 5 },
         { name: 'numeroComprobante', type: 'integer', length: 20 },
         { name: 'numeroDespachoImportacion', type: 'string', length: 16, default: '' },
-        { name: 'codigoDocumentoVendedor', type: 'integer', length: 2, default: 80 },
+        { name: 'codigoDocumentoVendedor', type: 'integer', length: 2, default: TIPOS_DE_COMPROBANTE.CUIT },
         { name: 'numeroIdentificacionVendedor', type: 'integer', length: 20 },
         { name: 'apellidoNombreVendedor', type: 'string', length: 30 },
         { name: 'importeTotalOperacion', type: 'decimal', decimals: 2, length: 15 },

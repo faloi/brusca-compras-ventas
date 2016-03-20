@@ -2,6 +2,6 @@
 angular
   .module('classroom')
   .constant('TIPOS_DE_DOCUMENTO', {
-    CONSUMIDOR_FINAL: 90,
-    OTROS: 80
+    CONSUMIDOR_FINAL: 99,
+    CUIT: 80
   });
