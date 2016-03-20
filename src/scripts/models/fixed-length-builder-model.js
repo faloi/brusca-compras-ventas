@@ -9,7 +9,7 @@ angular
         this.delimiter = delimiter || "\n";
         this.converters = {
           date: {
-            parse: x => moment(x, 'DD-MM-YYYY'),
+            parse: x => moment(x),
             convert: (value, column) => value.format('YYYYMMDD')
           },
           integer: {
