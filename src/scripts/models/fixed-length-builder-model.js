@@ -22,7 +22,12 @@ angular
           },
           decimal: {
             parse: x => _.isNil(x) ? 0 : parseFloat(x),
-            convert: (value, column) => _.padStart(value.toFixed(column.decimals).replace('.', ''), column.length, '0')
+            convert: (value, column) => {
+              const moverSignoMenosAlPrincipio = (numString) => '-' + numString.replace('-', '');
+
+              let toString = _.padStart(value.toFixed(column.decimals).replace('.', ''), column.length, '0');
+              return value < 0 ? moverSignoMenosAlPrincipio(toString) : toString;
+            }
           }
         };
       }
