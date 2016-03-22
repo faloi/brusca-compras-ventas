@@ -14,7 +14,7 @@ angular
       const hoja = XLSX.utils.sheet_to_json(getSheet(nombreHoja, archivo));
       const convertirColumnasACamelCase = x => _.mapKeys(x, (valor, clave) => _.camelCase(clave));
 
-      return _(hoja).map(convertirColumnasACamelCase).filter('fecha').value();
+      return _(hoja).map(convertirColumnasACamelCase).filter('tipo').value();
     };
 
     const validarFormatoCorrecto = workbook => {
