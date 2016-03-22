@@ -26,6 +26,7 @@
     "js-xlsx": "^0.8.0",
     "moment": "^2.12.0",
     "jszip": "Stuk/jszip#^2.5.0",
-    "file-saver.js": "file-saver-saveas-js#^1.20150507.2"
+    "file-saver.js": "file-saver-saveas-js#^1.20150507.2",
+    "numeral": "^1.5.3"
   }
 }

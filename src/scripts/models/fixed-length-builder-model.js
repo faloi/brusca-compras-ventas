@@ -9,7 +9,7 @@ angular
         this.delimiter = delimiter || '\r\n';
         this.converters = {
           date: {
-            parse: x => moment(x),
+            parse: moment,
             convert: (value, column) => value.format('YYYYMMDD')
           },
           integer: {
@@ -21,7 +21,7 @@ angular
             convert: (value, column) => _.padEnd(value, column.length)
           },
           decimal: {
-            parse: x => _.isNil(x) ? 0 : parseFloat(x),
+            parse: numeral().unformat,
             convert: (value, column) => {
               const moverSignoMenosAlPrincipio = (numString) => '-' + numString.replace('-', '');
 
