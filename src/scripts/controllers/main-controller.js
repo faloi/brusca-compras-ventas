@@ -8,7 +8,7 @@ angular
     };
 
     const toWorkbook = xlsBinary => XLSX.read(xlsBinary, {type: 'binary'});
-    const getSheet = (nombreHoja, workbook) => workbook.Sheets[nombreHoja];
+    const getSheet = (nombreHoja, workbook) => _.mapKeys(workbook.Sheets, (v, k) => k.toLowerCase())[nombreHoja.toLowerCase()];
 
     const parsearExcel = (archivo, nombreHoja) => {
       const hoja = XLSX.utils.sheet_to_json(getSheet(nombreHoja, archivo));
@@ -18,7 +18,7 @@ angular
     };
 
     const validarFormatoCorrecto = workbook => {
-      if (!_.every(hojas, nombre => _.isObject(workbook.Sheets[nombre]))) {
+      if (!_.every(hojas, nombre => _.isObject(getSheet(nombre, workbook)))) {
         throw "La planilla no tiene el formato adecuado. Para que funcione correctamente, debe tener una hoja llamada Ventas y otra llamada Compras."
       }
     };
