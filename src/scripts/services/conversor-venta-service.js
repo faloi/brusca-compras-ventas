@@ -45,7 +45,7 @@ angular
 
       const cantidadDigitos = (numero) => numero.toString().length;
 
-      return cantidadDigitos(comprobante.numeroIdentificacionComprador) == 11 ? TIPOS_DE_DOCUMENTO.CUIT : TIPOS_DE_DOCUMENTO.DNI;
+      return _.inRange(cantidadDigitos(comprobante.numeroIdentificacionComprador), 7, 9)? TIPOS_DE_DOCUMENTO.DNI : TIPOS_DE_DOCUMENTO.CUIT;
     };
 
     return {
