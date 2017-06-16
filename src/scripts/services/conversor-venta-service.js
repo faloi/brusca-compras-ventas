@@ -38,10 +38,20 @@ angular
       ]
     };
 
+    const inferirCodigoDocumento = (comprobante) => {
+      if (_.isNil(comprobante.numeroIdentificacionComprador)) {
+        return TIPOS_DE_DOCUMENTO.CONSUMIDOR_FINAL;
+      }
+
+      const cantidadDigitos = (numero) => numero.toString().length;
+
+      return cantidadDigitos(comprobante.numeroIdentificacionComprador) == 11 ? TIPOS_DE_DOCUMENTO.CUIT : TIPOS_DE_DOCUMENTO.DNI;
+    };
+
     return {
       convertir: ventas => {
         ventas.forEach(c => {
-          c.codigoDocumentoComprador = _.isNil(c.numeroIdentificacionComprador) ? TIPOS_DE_DOCUMENTO.CONSUMIDOR_FINAL : TIPOS_DE_DOCUMENTO.CUIT;
+          c.codigoDocumentoComprador = inferirCodigoDocumento(c);
           if (_.isNil(c.numeroComprobanteHasta)) { c.numeroComprobanteHasta = c.numeroComprobante; }
 
           const alicuotas = _.pickBy(c, (value, key) => key.startsWith('iva'));
