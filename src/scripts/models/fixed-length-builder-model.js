@@ -21,13 +21,8 @@ angular
             convert: (value, column) => _.padEnd(value, column.length)
           },
           decimal: {
-            parse: numeral().unformat,
-            convert: (value, column) => {
-              const moverSignoMenosAlPrincipio = (numString) => '-' + numString.replace('-', '');
-
-              let toString = _.padStart(value.toFixed(column.decimals).replace('.', ''), column.length, '0');
-              return value < 0 ? moverSignoMenosAlPrincipio(toString) : toString;
-            }
+            parse: _.flow(numeral().unformat, Math.abs),
+            convert: (value, column) => _.padStart(value.toFixed(column.decimals).replace('.', ''), column.length, '0')
           }
         };
       }
